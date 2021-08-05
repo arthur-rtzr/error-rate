@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample</title>
+</head>
+<style>
+    textarea.text {
+        width: 200px;
+        height: 300px;
+    }
+</style>
+<body>
+
+<textarea id="source" class="text">
+서울특별시 성북구 오패산로3길 17 동신아파트 104동203호
+제주특별자치도 서귀포시 안덕면 신화역사로 473-7
+서울특별시 동작구 사당동 1005-50
+경기도 양평군 용문면 용문로 465 스무빌아파트 105동 404호
+경상북도 경주시 보문로 465-67
+서울특별시 강동구 암사동 516-34 301호
+경기도 용인시 기흥구 기흥역로 16 기흥역지웰푸르지오 102동 1804호
+울산광역시 동구 방어진순환도로 995 현대패밀리서부아파트 111동 305호
+</textarea>
+<textarea id="target" class="text">
+서울특별시 성북구 오패산로 3길 17 동신아파트 104동 203호
+제주특별자치도 서귀포시 안덕면 신화역사로 473 - 7
+서울특별시 동작구 사당동 1005 대시 50
+경기도 양평군 용문면 용문로 465 스무빌 아파트 105동 404호
+경상북도 경주시 보문로 465 - 6 7
+서울특별시 강동구 암사동 516 - 34 301호
+경기도 용인시 기흥구 기흥역로 16 기흥역 지웰 푸르지오 102동 1804호
+울산광역시 동구 방어진순환도로 995 현대패밀리서부아파트 111동 305호
+</textarea>
+
+<div id="result">
+
+
+</div>
+
+<script type="module">
+    import {cer, wer} from "/error-rate/src/cer.mjs";
+    function run() {
+        let [txt1, txt2] = [document.getElementById("source").value.trim().split("\n"), document.getElementById("target").value.trim().split("\n")]
+        console.log(txt1, txt2)
+
+        var resultText = []
+        for (let i = 0; i < txt1.length; i++) {
+            let cerResult = cer(txt1[i], txt2[i])
+            let werResult = wer(txt1[i], txt2[i])
+            resultText.push("CER: ", cerResult.distance, cerResult.editops.join(" "))
+            resultText.push("WER: ", werResult.distance, werResult.editops.join(" "))
+        }
+        document.getElementById("result").innerText = resultText.join("\n")
+    }
+    document.body.onload = run
+
+    document.querySelectorAll("textarea.text").forEach(elem => {
+        elem.addEventListener("change", () => {
+            run()
+        })
+    })
+</script>
+
+
+</body>
+</html>
