@@ -40,11 +40,18 @@ export const levenstein = (source, target) => {
             ].sort((v1, v2) => (v1.v > v2.v ? 1 : -1))
 
             d[i][j] = values[0].v
-            history[i][j] = values[0].his.slice(0)
+            history[i][j] = [values[0].his]
             if (values[0].op !== "sub" || substitutionCost == 1) {
                 history[i][j].push([i, j, values[0].op])
             }
+            values = null;
         }
     }
-    return {distance: d[m][n], editops: history[m][n]}
+    var result = history[m][n]
+    while (typeof(result[0][0]) !== "number") {
+        var remainders = result.splice(1)
+        result = result[0].concat(remainders)
+    }
+
+    return {distance: d[m][n], editops: result}
 }
