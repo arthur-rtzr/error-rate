@@ -48,8 +48,8 @@
         for (let i = 0; i < txt1.length; i++) {
             let cerResult = cer(txt1[i], txt2[i])
             let werResult = wer(txt1[i], txt2[i])
-            resultText.push("CER: ", cerResult.distance, cerResult.editops.join(" "))
-            resultText.push("WER: ", werResult.distance, werResult.editops.join(" "))
+            resultText.push(`CER: ${cerResult.ratio} %, distance ${cerResult.distance}, detail info: ${cerResult.editops.join(" ")}`)
+            resultText.push(`WER: ${werResult.ratio} %, distance ${werResult.distance}, detail info: ${werResult.editops.join(" ")}`)
         }
         document.getElementById("result").innerText = resultText.join("\n")
     }
