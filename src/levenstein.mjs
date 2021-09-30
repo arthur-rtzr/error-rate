@@ -48,10 +48,10 @@ export const levenstein = (source, target) => {
         }
     }
     var result = history[m][n]
-    while (typeof(result[0][0]) !== "number") {
+    while (result[0].length > 0 && typeof (result[0][0]) !== "number") {
         var remainders = result.splice(1)
         result = result[0].concat(remainders)
     }
 
-    return {distance: d[m][n], editops: result}
+    return {distance: d[m][n], editops: result, ratio: (d[m][n] / source.length)}
 }
