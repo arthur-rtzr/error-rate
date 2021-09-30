@@ -23,12 +23,12 @@ export const levenstein = (source, target) => {
     let history = Array(m + 1).fill(null).map(() => Array(n + 1).fill(null).map(_ => []));
     for (let i = 1; i <= m; i++) {
         d[i][0] = i
-        history[i][0] = Array(i).fill("ins")
+        history[i][0] = Array(i).fill(i).map((elem, idx) => [elem, idx, "ins"])
     }
 
     for (let j = 1; j <= n; j++) {
         d[0][j] = j
-        history[0][j] = Array(j).fill("ins")
+        history[0][j] = Array(j).fill(j).map((elem, idx) => [idx, elem, "ins"])
     }
 
     for (let j = 1; j <= n; j++) {
@@ -49,9 +49,17 @@ export const levenstein = (source, target) => {
     }
     var result = history[m][n]
     while (result[0].length > 0 && typeof (result[0][0]) !== "number") {
-        var remainders = result.splice(1)
-        result = result[0].concat(remainders)
+        try{
+            var remainders = result.splice(1)
+            result = result[0].concat(remainders)
+            if (result.length == 87) {
+                debugger;
+            }
+        } catch (e) {
+            debugger
+        }
+
     }
 
-    return {distance: d[m][n], editops: result, ratio: (d[m][n] / source.length)}
+    return {distance: d[m][n], editops: result, ratio: (d[m][n] / target.length)}
 }
